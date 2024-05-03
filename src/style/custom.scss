@@ -42,4 +42,9 @@ body {
   font-weight: 500;
 }
 
+.modal-content {
+  background-color: $tertiary !important;
+  color: #ffffff;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"
