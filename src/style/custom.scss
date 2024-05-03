@@ -1,0 +1,31 @@
+$primary: #A9218B;
+
+
+body {
+    background-color: #2a242e!important;
+    color: white!important;
+  }
+
+  .nav-link {
+    color: white!important;
+    font-weight: bold!important;
+ 
+}
+
+.dropdown-menu {
+  background-color: #6c757d!important;
+}
+.dropdown-item {
+  color: white !important; // Imposta il colore del testo su bianco
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: $primary !important; // Imposta il colore di sfondo su primary
+}
+
+.dropdown-item:hover {
+  color: $primary !important; // Imposta il colore del testo su primary
+  font-weight: 500;
+}
+@import "../../node_modules/bootstrap/scss/bootstrap.scss"
