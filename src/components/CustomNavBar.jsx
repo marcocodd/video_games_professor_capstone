@@ -1,12 +1,10 @@
 import {
  Button,
- Col,
  Container,
  Form,
  Nav,
  NavDropdown,
  Navbar,
- Row,
 } from "react-bootstrap";
 import logo from "../assets/logo.jpg";
 
