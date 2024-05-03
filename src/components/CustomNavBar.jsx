@@ -11,16 +11,20 @@ import {
 import logo from "../assets/logo.jpg";
 
 const CustomNavBar = () => (
- <Navbar expand="lg" className="text-bg-secondary">
-  <Container>
+ <Navbar expand="lg" className="bg-navbar rounded position-sticky">
+  <Container fluid>
    <Navbar.Brand href="#home">
     <img className="rounded-circle" width={50} src={logo} alt="logo image" />
    </Navbar.Brand>
    <Navbar.Toggle aria-controls="basic-navbar-nav" />
    <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="m-auto">
-     <Nav.Link href="#home">Reviews</Nav.Link>
-     <Nav.Link href="#link">Games</Nav.Link>
+     <Nav.Link className="me-2" href="#home">
+      Reviews
+     </Nav.Link>
+     <Nav.Link className="me-2" href="#link">
+      Games
+     </Nav.Link>
      <NavDropdown
       className="text-white"
       title="Platforms"

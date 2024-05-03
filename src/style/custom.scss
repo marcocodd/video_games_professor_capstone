@@ -1,9 +1,16 @@
 $primary: #A9218B;
-
+$secondary:#2a242e;
+$tertiary:#4d355e;
 
 body {
-    background-color: #2a242e!important;
+    background-color:$secondary!important;
     color: white!important;
+
+  }
+
+  .bg-navbar{
+    background-color: $tertiary;
+ 
   }
 
   .nav-link {
@@ -12,20 +19,27 @@ body {
  
 }
 
+.nav-link:hover{
+  color: $primary!important;
+
+}
+
 .dropdown-menu {
-  background-color: #6c757d!important;
+  background-color: $tertiary!important;
 }
 .dropdown-item {
   color: white !important; // Imposta il colore del testo su bianco
 }
 
-.dropdown-item.active,
+
 .dropdown-item:active {
-    background-color: $primary !important; // Imposta il colore di sfondo su primary
+    background-color: #ffffff !important; // Imposta il colore di sfondo su bianco
+    color: $primary !important; // Imposta il colore del testo su primary
 }
 
 .dropdown-item:hover {
   color: $primary !important; // Imposta il colore del testo su primary
   font-weight: 500;
 }
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"
