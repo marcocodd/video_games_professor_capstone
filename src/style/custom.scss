@@ -1,5 +1,5 @@
 $primary: #A9218B;
-$secondary:#2a242e;
+$secondary:#1a171d;
 $tertiary:#4d355e;
 
 body {
@@ -45,6 +45,11 @@ body {
 .modal-content {
   background-color: $tertiary !important;
   color: #ffffff;
+}
+
+.cardbg{
+  background-color: #855aa5be!important;
+  color: #ac88a6!important;
 }
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"
