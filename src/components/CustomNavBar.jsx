@@ -11,10 +11,44 @@ import logo from "../assets/logo.jpg";
 import { useState } from "react";
 
 const CustomNavBar = () => {
- const [show, setShow] = useState(false);
+ const [showLogin, setShowLogin] = useState(false);
+ const [showRegister, setShowRegister] = useState(false);
 
- const handleClose = () => setShow(false);
- const handleShow = () => setShow(true);
+ const handleCloseLogin = () => setShowLogin(false);
+ const handleShowLogin = () => setShowLogin(true);
+
+ const handleShowRegister = () => setShowRegister(true);
+ const handleCloseRegister = () => setShowRegister(false);
+ const [registrationData, setRegistrationData] = useState({
+  username: "",
+  email: "",
+  password: "",
+ });
+
+ const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setRegistrationData({ ...registrationData, [name]: value });
+ };
+
+ const handleRegister = async () => {
+  try {
+   const response = await fetch("http://localhost:3001/auth/register", {
+    method: "POST",
+    headers: {
+     "Content-Type": "application/json",
+    },
+    body: JSON.stringify(registrationData),
+   });
+   if (response.ok) {
+    console.log("Account created");
+    handleCloseRegister();
+   } else {
+    console.error("Failed to create account:", response.status);
+   }
+  } catch (error) {
+   console.error("Error create account:", error);
+  }
+ };
 
  return (
   <>
@@ -57,7 +91,7 @@ const CustomNavBar = () => {
       </Nav>
 
       <Button
-       onClick={handleShow}
+       onClick={handleShowLogin}
        className="bg-transparent border-0 rounded-circle p-0"
       >
        <img
@@ -72,7 +106,7 @@ const CustomNavBar = () => {
 
    {/* MODAL LOGIN */}
 
-   <Modal show={show} onHide={handleClose}>
+   <Modal show={showLogin} onHide={handleCloseLogin}>
     <Modal.Header closeButton>
      <Modal.Title>Login</Modal.Title>
     </Modal.Header>
@@ -92,15 +126,86 @@ const CustomNavBar = () => {
       </Form.Group>
      </Form>
     </Modal.Body>
-    <Modal.Footer>
-     <Button variant="secondary" onClick={handleClose}>
-      Close
-     </Button>
-     <Button variant="primary" onClick={handleClose}>
-      Save Changes
-     </Button>
+    <Modal.Footer className="justify-content-between">
+     <span
+      onClick={() => {
+       handleCloseLogin();
+       handleShowRegister();
+      }}
+      className="text-primary fw-bold"
+     >
+      Register now
+     </span>
+     <div>
+      <Button className="me-3 " variant="secondary" onClick={handleCloseLogin}>
+       Close
+      </Button>
+      <Button variant="primary" onClick={handleCloseLogin}>
+       Login
+      </Button>
+     </div>
     </Modal.Footer>
    </Modal>
+   {/* Ends Modal login */}
+
+   {/* Modal Register */}
+   <Modal show={showRegister} onHide={handleCloseRegister}>
+    <Modal.Header closeButton>
+     <Modal.Title>Create Account</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+     <Form>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+       <Form.Label>Username</Form.Label>
+       <Form.Control
+        type="text"
+        name="username"
+        placeholder="Write your username here"
+        onChange={handleInputChange}
+        value={registrationData.username}
+        autoFocus
+       />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+       <Form.Label>Email address</Form.Label>
+       <Form.Control
+        name="email"
+        value={registrationData.email}
+        type="email"
+        placeholder="name@example.com"
+        onChange={handleInputChange}
+        autoFocus
+       />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+       <Form.Label>Password</Form.Label>
+       <Form.Control
+        type="password"
+        placeholder="write your password here"
+        name="password"
+        value={registrationData.password}
+        onChange={handleInputChange}
+        autoFocus
+       />
+      </Form.Group>
+     </Form>
+    </Modal.Body>
+    <Modal.Footer className="justify-content-between">
+     <div>
+      <Button
+       className="me-3 "
+       variant="secondary"
+       onClick={handleCloseRegister}
+      >
+       Close
+      </Button>
+      <Button variant="primary" onClick={handleRegister}>
+       Register
+      </Button>
+     </div>
+    </Modal.Footer>
+   </Modal>
+   {/* Ends modal register */}
   </>
  );
 };

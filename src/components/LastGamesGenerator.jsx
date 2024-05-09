@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 
 const LastGamesGenerator = () => {
  const [arrayLastGames, setArrayLastGames] = useState([]);
