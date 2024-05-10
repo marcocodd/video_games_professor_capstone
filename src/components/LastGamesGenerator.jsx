@@ -44,7 +44,7 @@ const LastGamesGenerator = () => {
        </Card.Text>
        <Card.Title>Realeased: {game.released}</Card.Title>
 
-       <Card.Title>User's rating: {game.rating}</Card.Title>
+       <Card.Title>User&apos;s rating: {game.rating}</Card.Title>
       </Card.Body>
      </Card>
     </Col>

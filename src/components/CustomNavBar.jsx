@@ -1,4 +1,5 @@
 import {
+ Alert,
  Button,
  Container,
  Form,
@@ -8,7 +9,9 @@ import {
  Navbar,
 } from "react-bootstrap";
 import logo from "../assets/logo.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { registerUserAction } from "../redux/actions/registerUserAction";
 
 const CustomNavBar = () => {
  const [showLogin, setShowLogin] = useState(false);
@@ -19,36 +22,28 @@ const CustomNavBar = () => {
 
  const handleShowRegister = () => setShowRegister(true);
  const handleCloseRegister = () => setShowRegister(false);
+ const [showAlert, setShowAlert] = useState(false);
  const [registrationData, setRegistrationData] = useState({
   username: "",
   email: "",
   password: "",
  });
-
+ const dispatch = useDispatch();
+ const registrationState = useSelector((state) => state.registerUser);
  const handleInputChange = (e) => {
   const { name, value } = e.target;
   setRegistrationData({ ...registrationData, [name]: value });
  };
 
- const handleRegister = async () => {
-  try {
-   const response = await fetch("http://localhost:3001/auth/register", {
-    method: "POST",
-    headers: {
-     "Content-Type": "application/json",
-    },
-    body: JSON.stringify(registrationData),
-   });
-   if (response.ok) {
-    console.log("Account created");
-    handleCloseRegister();
-   } else {
-    console.error("Failed to create account:", response.status);
-   }
-  } catch (error) {
-   console.error("Error create account:", error);
-  }
+ const handleRegister = () => {
+  dispatch(registerUserAction(registrationData));
  };
+
+ useEffect(() => {
+  if (registrationState.successMessage) {
+   setShowAlert(true);
+  }
+ }, [registrationState.successMessage]);
 
  return (
   <>
@@ -165,6 +160,9 @@ const CustomNavBar = () => {
         value={registrationData.username}
         autoFocus
        />
+       {registrationState.errorMessage && registrationState.errorMessage[0] && (
+        <p className="text-danger">{registrationState.errorMessage[0]}</p>
+       )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Email address</Form.Label>
@@ -176,6 +174,9 @@ const CustomNavBar = () => {
         onChange={handleInputChange}
         autoFocus
        />
+       {registrationState.errorMessage && registrationState.errorMessage[1] && (
+        <p className="text-danger">{registrationState.errorMessage[1]}</p>
+       )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Password</Form.Label>
@@ -187,6 +188,9 @@ const CustomNavBar = () => {
         onChange={handleInputChange}
         autoFocus
        />
+       {registrationState.errorMessage && registrationState.errorMessage[2] && (
+        <p className="text-danger">{registrationState.errorMessage[2]}</p>
+       )}
       </Form.Group>
      </Form>
     </Modal.Body>
@@ -206,6 +210,14 @@ const CustomNavBar = () => {
     </Modal.Footer>
    </Modal>
    {/* Ends modal register */}
+   {/* ALERTS */}
+   {showAlert && (
+    <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+     <Alert.Heading>Account Created</Alert.Heading>
+     <p>{registrationState.successMessage}</p>
+    </Alert>
+   )}
+   {/* End Alerts */}
   </>
  );
 };
