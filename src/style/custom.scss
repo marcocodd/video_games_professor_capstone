@@ -52,4 +52,13 @@ body {
   color: #ac88a6!important;
 }
 
+footer{
+  background-color: $tertiary;
+}
+
+
+h1,h2,h3,h4,h6{
+  color: $primary!important;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"
