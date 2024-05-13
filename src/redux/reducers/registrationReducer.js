@@ -1,8 +1,10 @@
 import { REGISTER_USER } from "../actions/registerUserAction";
 import { REGISTER_USER_FAIL } from "../actions/registerUserFailAction";
 import { REGISTER_USER_SUCCESS } from "../actions/registerUserSuccessAction";
+import { UPDATE_REGISTRATION_DATA } from "../actions/updateRegistrationData";
 
 const initialState = {
+ registrationData: { username: "", email: "", password: "" },
  loading: false,
  successMessage: "",
  errorMessage: [],
@@ -10,6 +12,15 @@ const initialState = {
 
 const registrationReducer = (state = initialState, action) => {
  switch (action.type) {
+  case UPDATE_REGISTRATION_DATA:
+   return {
+    ...state,
+    registrationData: {
+     ...state.registrationData,
+     [action.payload.name]: action.payload.value,
+    },
+   };
+
   case REGISTER_USER:
    return {
     ...state,
@@ -19,6 +30,10 @@ const registrationReducer = (state = initialState, action) => {
   case REGISTER_USER_SUCCESS:
    return {
     ...state,
+    registrationData: {
+     email: "",
+     password: "",
+    },
     loading: false,
     errorMessage: null,
     successMessage: "Account successfully created, You can now Login!",

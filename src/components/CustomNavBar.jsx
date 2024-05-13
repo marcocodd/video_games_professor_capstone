@@ -12,6 +12,7 @@ import logo from "../assets/logo.jpg";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUserAction } from "../redux/actions/registerUserAction";
+import { updateRegistrationData } from "../redux/actions/updateRegistrationData";
 
 const CustomNavBar = () => {
  const [showLogin, setShowLogin] = useState(false);
@@ -23,25 +24,28 @@ const CustomNavBar = () => {
  const handleShowRegister = () => setShowRegister(true);
  const handleCloseRegister = () => setShowRegister(false);
  const [showAlert, setShowAlert] = useState(false);
- const [registrationData, setRegistrationData] = useState({
-  username: "",
-  email: "",
-  password: "",
- });
+ //  const [registrationData, setRegistrationData] = useState({
+ //   username: "",
+ //   email: "",
+ //   password: "",
+ //  });
  const dispatch = useDispatch();
  const registrationState = useSelector((state) => state.registerUser);
- const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  setRegistrationData({ ...registrationData, [name]: value });
- };
 
  const handleRegister = () => {
-  dispatch(registerUserAction(registrationData));
+  dispatch(registerUserAction(registrationState.registrationData));
  };
+ const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  dispatch(updateRegistrationData(name, value));
+ };
+ //   setRegistrationData({ ...registrationData, [name]: value });
+ //  };
 
  useEffect(() => {
   if (registrationState.successMessage) {
    setShowAlert(true);
+   setShowRegister(false);
   }
  }, [registrationState.successMessage]);
 
@@ -157,7 +161,7 @@ const CustomNavBar = () => {
         name="username"
         placeholder="Write your username here"
         onChange={handleInputChange}
-        value={registrationData.username}
+        value={registrationState.username}
         autoFocus
        />
        {registrationState.errorMessage && registrationState.errorMessage[0] && (
@@ -168,7 +172,7 @@ const CustomNavBar = () => {
        <Form.Label>Email address</Form.Label>
        <Form.Control
         name="email"
-        value={registrationData.email}
+        value={registrationState.email}
         type="email"
         placeholder="name@example.com"
         onChange={handleInputChange}
@@ -184,7 +188,7 @@ const CustomNavBar = () => {
         type="password"
         placeholder="write your password here"
         name="password"
-        value={registrationData.password}
+        value={registrationState.password}
         onChange={handleInputChange}
         autoFocus
        />
@@ -221,4 +225,5 @@ const CustomNavBar = () => {
   </>
  );
 };
+
 export default CustomNavBar;
