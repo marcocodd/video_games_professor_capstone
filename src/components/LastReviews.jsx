@@ -1,7 +1,7 @@
-const LastReviews = () =>{
-    return (
+// const LastReviews = () =>{
+//     return (
 
-    )
-}
+//     )
+// }
 
-export default LastReviews
+// export default LastReviews

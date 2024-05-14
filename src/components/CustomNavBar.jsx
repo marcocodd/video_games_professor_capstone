@@ -11,19 +11,24 @@ import {
 import logo from "../assets/logo.jpg";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { registerUserAction } from "../redux/actions/registerUserAction";
 import { updateRegistrationData } from "../redux/actions/updateRegistrationData";
+import { registerUserAction } from "../redux/actions/registerUserAction";
+import { updateLoginUserData } from "../redux/actions/loginUserUpdateData";
+import { loginUserAction } from "../redux/actions/loginUserAction";
 
 const CustomNavBar = () => {
  const [showLogin, setShowLogin] = useState(false);
  const [showRegister, setShowRegister] = useState(false);
+ const [loginErrors, setLoginErrors] = useState({});
+ const [registerErrors, setRegisterErrors] = useState([]);
+ const [showAlertError, setShowAlertError] = useState(false);
 
  const handleCloseLogin = () => setShowLogin(false);
  const handleShowLogin = () => setShowLogin(true);
 
  const handleShowRegister = () => setShowRegister(true);
  const handleCloseRegister = () => setShowRegister(false);
- const [showAlert, setShowAlert] = useState(false);
+ const [showAlertSuccess, setShowAlertSuccess] = useState(false);
  //  const [registrationData, setRegistrationData] = useState({
  //   username: "",
  //   email: "",
@@ -31,23 +36,85 @@ const CustomNavBar = () => {
  //  });
  const dispatch = useDispatch();
  const registrationState = useSelector((state) => state.registerUser);
+ const loginUserState = useSelector((state) => state.loggedUser);
 
- const handleRegister = () => {
-  dispatch(registerUserAction(registrationState.registrationData));
- };
- const handleInputChange = (e) => {
+ const handleInputRegistration = (e) => {
   const { name, value } = e.target;
   dispatch(updateRegistrationData(name, value));
  };
+ const handleInputLogin = (e) => {
+  const { name, value } = e.target;
+  dispatch(updateLoginUserData(name, value));
+ };
+
+ const handleRegister = () => {
+  const errors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!registrationState.registrationData.username) {
+   errors.username = "Username is required";
+  }
+
+  if (!registrationState.registrationData.email) {
+   errors.email = "Email is required";
+  } else if (!emailRegex.test(registrationState.registrationData.email)) {
+   errors.email = "Invalid email format";
+  }
+
+  if (!registrationState.registrationData.password) {
+   errors.password = "Password is required";
+  }
+
+  if (errors.username || errors.email || errors.password) {
+   setRegisterErrors(errors);
+  } else {
+   dispatch(registerUserAction(registrationState.registrationData));
+  }
+ };
+
+ const handleLogin = () => {
+  const errors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!loginUserState.loginData.email) {
+   errors.email = "Email is required";
+  } else if (!emailRegex.test(loginUserState.loginData.email)) {
+   errors.email = "Invalid email format";
+  }
+
+  if (!loginUserState.loginData.password) {
+   errors.password = "Password is required";
+  }
+
+  if (errors.email || errors.password) {
+   setLoginErrors(errors);
+  } else {
+   dispatch(loginUserAction(loginUserState.loginData));
+  }
+ };
+
  //   setRegistrationData({ ...registrationData, [name]: value });
  //  };
 
  useEffect(() => {
   if (registrationState.successMessage) {
-   setShowAlert(true);
+   setShowAlertSuccess(true);
    setShowRegister(false);
   }
- }, [registrationState.successMessage]);
+  if (loginUserState.successMessage) {
+   setShowAlertSuccess(true);
+   setShowLogin(false);
+  }
+ }, [registrationState.successMessage, loginUserState.successMessage]);
+
+ useEffect(() => {
+  if (registrationState.errorMessage || loginUserState.errorMessage) {
+   setShowLogin(false); // Chiudi il modale di login se si verifica un errore
+   setShowRegister(false); // Chiudi il modale di registrazione se si verifica un errore
+   setShowAlertError(true); // Mostra l'alert di errore solo se c'è un errore
+  } else {
+   setShowAlertError(false); // Nascondi l'alert di errore se non c'è errore
+  }
+ }, [registrationState.errorMessage, loginUserState.errorMessage]);
 
  return (
   <>
@@ -113,15 +180,31 @@ const CustomNavBar = () => {
      <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Email address</Form.Label>
-       <Form.Control type="email" placeholder="name@example.com" autoFocus />
+       <Form.Control
+        type="email"
+        name="email"
+        placeholder="name@example.com"
+        autoFocus
+        onChange={handleInputLogin}
+        value={loginUserState.loginData.email}
+        required
+       />
+       {loginErrors.email && <p className="text-danger">{loginErrors.email}</p>}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Password</Form.Label>
        <Form.Control
         type="password"
+        name="password"
         placeholder="write your password here"
         autoFocus
+        onChange={handleInputLogin}
+        value={loginUserState.loginData.password}
+        required
        />
+       {loginErrors.password && (
+        <p className="text-danger">{loginErrors.password}</p>
+       )}
       </Form.Group>
      </Form>
     </Modal.Body>
@@ -139,7 +222,7 @@ const CustomNavBar = () => {
       <Button className="me-3 " variant="secondary" onClick={handleCloseLogin}>
        Close
       </Button>
-      <Button variant="primary" onClick={handleCloseLogin}>
+      <Button variant="primary" onClick={handleLogin}>
        Login
       </Button>
      </div>
@@ -160,26 +243,26 @@ const CustomNavBar = () => {
         type="text"
         name="username"
         placeholder="Write your username here"
-        onChange={handleInputChange}
-        value={registrationState.username}
+        onChange={handleInputRegistration}
+        value={registrationState.registrationData.username}
         autoFocus
        />
-       {registrationState.errorMessage && registrationState.errorMessage[0] && (
-        <p className="text-danger">{registrationState.errorMessage[0]}</p>
+       {registerErrors.username && (
+        <p className="text-danger">{registerErrors.username}</p>
        )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Email address</Form.Label>
        <Form.Control
         name="email"
-        value={registrationState.email}
+        value={registrationState.registrationData.email}
         type="email"
         placeholder="name@example.com"
-        onChange={handleInputChange}
+        onChange={handleInputRegistration}
         autoFocus
        />
-       {registrationState.errorMessage && registrationState.errorMessage[1] && (
-        <p className="text-danger">{registrationState.errorMessage[1]}</p>
+       {registerErrors.email && (
+        <p className="text-danger">{registerErrors.email}</p>
        )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -188,12 +271,12 @@ const CustomNavBar = () => {
         type="password"
         placeholder="write your password here"
         name="password"
-        value={registrationState.password}
-        onChange={handleInputChange}
+        value={registrationState.registrationData.password}
+        onChange={handleInputRegistration}
         autoFocus
        />
-       {registrationState.errorMessage && registrationState.errorMessage[2] && (
-        <p className="text-danger">{registrationState.errorMessage[2]}</p>
+       {registerErrors.password && (
+        <p className="text-danger">{registerErrors.password}</p>
        )}
       </Form.Group>
      </Form>
@@ -215,10 +298,40 @@ const CustomNavBar = () => {
    </Modal>
    {/* Ends modal register */}
    {/* ALERTS */}
-   {showAlert && (
-    <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
-     <Alert.Heading>Account Created</Alert.Heading>
-     <p>{registrationState.successMessage}</p>
+   {showAlertSuccess &&
+    registrationState.successMessage &&
+    !loginUserState.successMessage && (
+     <Alert
+      variant="success"
+      onClose={() => setShowAlertSuccess(false)}
+      dismissible
+     >
+      <Alert.Heading>Success</Alert.Heading>
+      <p>{registrationState.successMessage}</p>
+     </Alert>
+    )}
+
+   {showAlertSuccess &&
+    !registrationState.successMessage &&
+    loginUserState.successMessage && (
+     <Alert
+      variant="success"
+      onClose={() => setShowAlertSuccess(false)}
+      dismissible
+     >
+      <Alert.Heading>Success</Alert.Heading>
+      <p>{loginUserState.successMessage}</p>
+     </Alert>
+    )}
+
+   {showAlertError && (
+    <Alert
+     variant="danger"
+     onClose={() => setShowAlertError(false)}
+     dismissible
+    >
+     <Alert.Heading>Error</Alert.Heading>
+     <p>{registrationState.errorMessage || loginUserState.errorMessage}</p>
     </Alert>
    )}
    {/* End Alerts */}

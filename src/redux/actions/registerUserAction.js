@@ -1,7 +1,5 @@
-import { registerUserFailure } from "./registerUserFailAction";
+import { registerUserFail } from "./registerUserFailAction";
 import { registerUserSuccess } from "./registerUserSuccessAction";
-
-export const REGISTER_USER = "REGISTER_USER";
 
 export const registerUserAction = (registrationData) => {
  return async (dispatch) => {
@@ -17,8 +15,8 @@ export const registerUserAction = (registrationData) => {
     dispatch(registerUserSuccess());
     console.log("Account created");
    } else {
-    const error = await response.json();
-    dispatch(registerUserFailure(error));
+    const errorMessage = await response.text();
+    dispatch(registerUserFail(errorMessage));
     console.error("Failed to create account:", response.status);
    }
   } catch (error) {

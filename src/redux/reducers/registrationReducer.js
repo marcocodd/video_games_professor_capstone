@@ -1,4 +1,3 @@
-import { REGISTER_USER } from "../actions/registerUserAction";
 import { REGISTER_USER_FAIL } from "../actions/registerUserFailAction";
 import { REGISTER_USER_SUCCESS } from "../actions/registerUserSuccessAction";
 import { UPDATE_REGISTRATION_DATA } from "../actions/updateRegistrationData";
@@ -7,7 +6,7 @@ const initialState = {
  registrationData: { username: "", email: "", password: "" },
  loading: false,
  successMessage: "",
- errorMessage: [],
+ errorMessage: null,
 };
 
 const registrationReducer = (state = initialState, action) => {
@@ -21,12 +20,6 @@ const registrationReducer = (state = initialState, action) => {
     },
    };
 
-  case REGISTER_USER:
-   return {
-    ...state,
-    loading: true,
-    errorMessage: null,
-   };
   case REGISTER_USER_SUCCESS:
    return {
     ...state,
