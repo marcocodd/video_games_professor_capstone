@@ -12,9 +12,9 @@ import {
 import logo from "../assets/logo.jpg";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { updateRegistrationData } from "../redux/actions/updateRegistrationData";
+
 import { registerUserAction } from "../redux/actions/registerUserAction";
-// import { updateLoginUserData } from "../redux/actions/loginUserUpdateData";
+
 import { loginUserAction } from "../redux/actions/loginUserAction";
 import { fetchUserProfile } from "../redux/actions/fetchUserProfileAction";
 import { Link } from "react-router-dom";
@@ -122,8 +122,8 @@ const CustomNavBar = () => {
 
  return (
   <>
-   <Navbar expand="lg" className="bg-navbar rounded position-sticky">
-    <Container fluid>
+   <Navbar expand="lg" className="bg-navbar rounded sticky-top">
+    <Container>
      <Link to={"/"}>
       <Navbar.Brand href="#home">
        <img className="rounded-circle" width={50} src={logo} alt="logo image" />
@@ -139,15 +139,6 @@ const CustomNavBar = () => {
        <Nav.Link className="me-2" href="#link">
         Games
        </Nav.Link>
-
-       <Form className="d-flex">
-        <Form.Control
-         type="search"
-         placeholder="Search"
-         className="me-2"
-         aria-label="Search"
-        />
-       </Form>
        <NavDropdown
         className="text-white"
         title="Platforms"
@@ -243,15 +234,15 @@ const CustomNavBar = () => {
      </Form>
     </Modal.Body>
     <Modal.Footer className="justify-content-between">
-     <span
+     <Button
       onClick={() => {
        handleCloseLogin();
        handleShowRegister();
       }}
-      className="text-primary fw-bold"
+      className="fw-bold"
      >
       Register now
-     </span>
+     </Button>
      <div>
       <Button className="me-3 " variant="secondary" onClick={handleCloseLogin}>
        Close
