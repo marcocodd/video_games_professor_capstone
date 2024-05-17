@@ -2,6 +2,7 @@ import {
  Alert,
  Button,
  Container,
+ Dropdown,
  Form,
  Modal,
  Nav,
@@ -11,10 +12,12 @@ import {
 import logo from "../assets/logo.jpg";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateRegistrationData } from "../redux/actions/updateRegistrationData";
+// import { updateRegistrationData } from "../redux/actions/updateRegistrationData";
 import { registerUserAction } from "../redux/actions/registerUserAction";
-import { updateLoginUserData } from "../redux/actions/loginUserUpdateData";
+// import { updateLoginUserData } from "../redux/actions/loginUserUpdateData";
 import { loginUserAction } from "../redux/actions/loginUserAction";
+import { fetchUserProfile } from "../redux/actions/fetchUserProfileAction";
+import { Link } from "react-router-dom";
 
 const CustomNavBar = () => {
  const [showLogin, setShowLogin] = useState(false);
@@ -29,80 +32,81 @@ const CustomNavBar = () => {
  const handleShowRegister = () => setShowRegister(true);
  const handleCloseRegister = () => setShowRegister(false);
  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
- //  const [registrationData, setRegistrationData] = useState({
- //   username: "",
- //   email: "",
- //   password: "",
- //  });
+
  const dispatch = useDispatch();
  const registrationState = useSelector((state) => state.registerUser);
  const loginUserState = useSelector((state) => state.loggedUser);
+ const [registrationData, setRegistrationData] = useState({
+  username: "",
+  email: "",
+  password: "",
+ });
+ const [loginData, setLoginData] = useState({ email: "", password: "" });
 
  const handleInputRegistration = (e) => {
   const { name, value } = e.target;
-  dispatch(updateRegistrationData(name, value));
+  setRegistrationData(...registrationData, { [name]: value });
  };
  const handleInputLogin = (e) => {
   const { name, value } = e.target;
-  dispatch(updateLoginUserData(name, value));
+  setLoginData({ ...loginData, [name]: value });
  };
 
  const handleRegister = () => {
   const errors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!registrationState.registrationData.username) {
+  if (!registrationData.username) {
    errors.username = "Username is required";
   }
 
-  if (!registrationState.registrationData.email) {
+  if (!registrationData.email) {
    errors.email = "Email is required";
-  } else if (!emailRegex.test(registrationState.registrationData.email)) {
+  } else if (!emailRegex.test(registrationData.email)) {
    errors.email = "Invalid email format";
   }
 
-  if (!registrationState.registrationData.password) {
+  if (!registrationData.password) {
    errors.password = "Password is required";
   }
 
   if (errors.username || errors.email || errors.password) {
    setRegisterErrors(errors);
   } else {
-   dispatch(registerUserAction(registrationState.registrationData));
+   dispatch(registerUserAction(registrationData));
   }
  };
 
  const handleLogin = () => {
   const errors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!loginUserState.loginData.email) {
+  if (!loginData.email) {
    errors.email = "Email is required";
-  } else if (!emailRegex.test(loginUserState.loginData.email)) {
+  } else if (!emailRegex.test(loginData.email)) {
    errors.email = "Invalid email format";
   }
 
-  if (!loginUserState.loginData.password) {
+  if (!loginData.password) {
    errors.password = "Password is required";
   }
 
   if (errors.email || errors.password) {
    setLoginErrors(errors);
   } else {
-   dispatch(loginUserAction(loginUserState.loginData));
+   dispatch(loginUserAction(loginData));
+   dispatch(fetchUserProfile());
   }
  };
-
- //   setRegistrationData({ ...registrationData, [name]: value });
- //  };
-
  useEffect(() => {
   if (registrationState.successMessage) {
    setShowAlertSuccess(true);
    setShowRegister(false);
+   setRegistrationData("");
   }
   if (loginUserState.successMessage) {
    setShowAlertSuccess(true);
    setShowLogin(false);
+   setLoginData("");
   }
  }, [registrationState.successMessage, loginUserState.successMessage]);
 
@@ -120,9 +124,12 @@ const CustomNavBar = () => {
   <>
    <Navbar expand="lg" className="bg-navbar rounded position-sticky">
     <Container fluid>
-     <Navbar.Brand href="#home">
-      <img className="rounded-circle" width={50} src={logo} alt="logo image" />
-     </Navbar.Brand>
+     <Link to={"/"}>
+      <Navbar.Brand href="#home">
+       <img className="rounded-circle" width={50} src={logo} alt="logo image" />
+      </Navbar.Brand>
+     </Link>
+
      <Navbar.Toggle aria-controls="basic-navbar-nav" />
      <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="m-auto">
@@ -156,16 +163,43 @@ const CustomNavBar = () => {
        </Nav.Link>
       </Nav>
 
-      <Button
-       onClick={handleShowLogin}
-       className="bg-transparent border-0 rounded-circle p-0"
-      >
-       <img
-        className="rounded-circle me-2"
-        src="https://placebear.com/50/50"
-        alt="Avatar"
-       />
-      </Button>
+      {loginUserState.isLogged ? (
+       <Dropdown align="end">
+        <Dropdown.Toggle
+         as={Button}
+         variant="link"
+         className="p-0"
+         id="dropdown-avatar"
+        >
+         <img
+          className="rounded-circle me-2"
+          src={loginUserState.profile.avatar}
+          alt="Avatar"
+          width={50}
+          height={50}
+         />
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+         <Dropdown.Item as={Link} to="/profile">
+          Profile
+         </Dropdown.Item>
+
+         <Dropdown.Item onClick>Logout</Dropdown.Item>
+        </Dropdown.Menu>
+       </Dropdown>
+      ) : (
+       <Button
+        onClick={handleShowLogin}
+        className="bg-transparent border-0 rounded-circle p-0"
+       >
+        <img
+         className="rounded-circle me-2"
+         src="https://placebear.com/50/50"
+         alt="Avatar"
+        />
+       </Button>
+      )}
      </Navbar.Collapse>
     </Container>
    </Navbar>
@@ -186,7 +220,7 @@ const CustomNavBar = () => {
         placeholder="name@example.com"
         autoFocus
         onChange={handleInputLogin}
-        value={loginUserState.loginData.email}
+        value={loginData.email}
         required
        />
        {loginErrors.email && <p className="text-danger">{loginErrors.email}</p>}
@@ -199,7 +233,7 @@ const CustomNavBar = () => {
         placeholder="write your password here"
         autoFocus
         onChange={handleInputLogin}
-        value={loginUserState.loginData.password}
+        value={loginData.password}
         required
        />
        {loginErrors.password && (
@@ -244,7 +278,7 @@ const CustomNavBar = () => {
         name="username"
         placeholder="Write your username here"
         onChange={handleInputRegistration}
-        value={registrationState.registrationData.username}
+        value={registrationData.username}
         autoFocus
        />
        {registerErrors.username && (
@@ -255,7 +289,7 @@ const CustomNavBar = () => {
        <Form.Label>Email address</Form.Label>
        <Form.Control
         name="email"
-        value={registrationState.registrationData.email}
+        value={registrationData.email}
         type="email"
         placeholder="name@example.com"
         onChange={handleInputRegistration}
@@ -271,7 +305,7 @@ const CustomNavBar = () => {
         type="password"
         placeholder="write your password here"
         name="password"
-        value={registrationState.registrationData.password}
+        value={registrationData.password}
         onChange={handleInputRegistration}
         autoFocus
        />
