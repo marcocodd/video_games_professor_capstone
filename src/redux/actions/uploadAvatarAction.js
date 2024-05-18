@@ -1,3 +1,5 @@
+import { fetchUserProfile } from "./fetchUserProfileAction";
+
 export const UPLOAD_AVATAR_SUCCESS = "UPLOAD_AVATAR_SUCCESS";
 export const UPLOAD_AVATAR_FAIL = "UPLOAD_AVATAR_FAIL";
 
@@ -26,6 +28,7 @@ export const uploadAvatar = (image, userId) => {
       type: UPLOAD_AVATAR_SUCCESS,
       payload: imageUrl,
      });
+     dispatch(fetchUserProfile());
     } else {
      console.error(
       "Errore durante il caricamento dell'immagine:",

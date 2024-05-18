@@ -125,7 +125,7 @@ const CustomNavBar = () => {
    <Navbar expand="lg" className="bg-navbar rounded sticky-top">
     <Container>
      <Link to={"/"}>
-      <Navbar.Brand href="#home">
+      <Navbar.Brand>
        <img className="rounded-circle" width={50} src={logo} alt="logo image" />
       </Navbar.Brand>
      </Link>

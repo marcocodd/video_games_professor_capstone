@@ -1,6 +1,6 @@
 export const LOGIN_USER_FAIL = "LOGIN_USER_FAIL";
 
-export const loginUserFail = (error) => ({
+export const loginUserFail = () => ({
  type: LOGIN_USER_FAIL,
- payload: error,
+ payload: "Errore nel login riprova",
 });

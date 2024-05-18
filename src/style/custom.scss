@@ -66,4 +66,12 @@ h1,h2,h3,h4,h6{
   display: none; /* Nasconde la barra di scorrimento */
 }
 
+
+.custom-opacity {
+  opacity: 0.5; 
+}
+.custom-opacity:hover {
+  opacity: 1; 
+  transition: 0.5s;
+}
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"

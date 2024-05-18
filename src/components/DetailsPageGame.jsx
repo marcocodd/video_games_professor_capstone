@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Card, Placeholder } from "react-bootstrap";
 
 const GameDetail = () => {
  const { id } = useParams();
@@ -57,35 +57,64 @@ const GameDetail = () => {
   fetchGameTrailer();
  }, [id]);
 
- if (loadingGame || loadingTrailer) return <Spinner animation="border" />;
-
  if (errorGame) return <p>Error fetching game details: {errorGame}</p>;
 
  if (errorTrailer) return <p>Error fetching game trailer: {errorTrailer}</p>;
 
  return (
-  <Container>
+  <Container className="mt-5 mb-5">
    <Row>
-    <Col>
+    <Col xs={12} md={12} lg={6}>
      <Card className="my-3 cardbg">
-      <Card.Img variant="top" src={game.background_image} />
+      {loadingGame ? (
+       <Placeholder as={Card.Img} animation="wave" />
+      ) : (
+       <Card.Img variant="top" src={game.background_image} />
+      )}
       <Card.Body>
-       <Card.Title>{game.name}</Card.Title>
-       <Card.Text>{game.description_raw}</Card.Text>
-       <Card.Text>Released: {game.released}</Card.Text>
-       <Card.Text>Rating: {game.rating}</Card.Text>
+       {loadingGame ? (
+        <>
+         <Placeholder as={Card.Title} animation="wave">
+          <Placeholder xs={6} />
+         </Placeholder>
+         <Placeholder as={Card.Text} animation="wave">
+          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{" "}
+          <Placeholder xs={6} /> <Placeholder xs={8} />
+         </Placeholder>
+         <Placeholder as={Card.Text} animation="wave">
+          <Placeholder xs={4} />
+         </Placeholder>
+         <Placeholder as={Card.Text} animation="wave">
+          <Placeholder xs={4} />
+         </Placeholder>
+        </>
+       ) : (
+        <>
+         <Card.Title>{game.name}</Card.Title>
+         <Card.Text>{game.description_raw}</Card.Text>
+         <Card.Text>Released: {game.released}</Card.Text>
+         <Card.Text>Rating: {game.rating}</Card.Text>
+        </>
+       )}
       </Card.Body>
      </Card>
     </Col>
-    <Col>
-     {gameTrailer && (
-      <div className="my-3">
+    <Col xs={12} md={12} lg={6}>
+     {loadingTrailer ? (
+      <>
        <h5>Trailer</h5>
-       <video width="100%" controls className="rounded">
-        <source src={gameTrailer.data.max} type="video/mp4" />
-        Your browser does not support the video tag.
-       </video>
-      </div>
+       <Placeholder as="video" animation="wave" className="w-100 rounded" />
+      </>
+     ) : (
+      gameTrailer && (
+       <div>
+        <h5 className="text-primary">Trailer</h5>
+        <video width="100%" controls className="rounded">
+         <source src={gameTrailer.data.max} type="video/mp4" />
+         Your browser does not support the video tag.
+        </video>
+       </div>
+      )
      )}
     </Col>
    </Row>
