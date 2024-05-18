@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import ProfilePage from "./components/ProfilePage";
+import GameDetail from "./components/DetailsPageGame";
 
 function App() {
  return (
@@ -15,6 +16,7 @@ function App() {
    <Routes>
     <Route path="/" element={<HomePage />} />
     <Route path="/profile" element={<ProfilePage />} />
+    <Route path="/game/:id" element={<GameDetail />} />
    </Routes>
    <Footer />
   </BrowserRouter>

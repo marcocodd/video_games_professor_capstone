@@ -1,6 +1,6 @@
-$primary: #A9218B;
-$secondary:#1a171d;
-$tertiary:#4d355e;
+$primary: #c42ba3;
+$secondary:#201b25;
+$tertiary:#583b6de7;
 
 body {
     background-color:$secondary!important;
@@ -48,8 +48,8 @@ body {
 }
 
 .cardbg{
-  background-color: #855aa5be!important;
-  color: #ac88a6!important;
+  background-color: #845aa5c7!important;
+  color: #d1bacd!important;
 }
 
 footer{
@@ -59,6 +59,11 @@ footer{
 
 h1,h2,h3,h4,h6{
   color: $primary!important;
+}
+
+
+#lastGamesContainer::-webkit-scrollbar {
+  display: none; /* Nasconde la barra di scorrimento */
 }
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"
