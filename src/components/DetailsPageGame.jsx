@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Card, Placeholder } from "react-bootstrap";
+import {
+ Container,
+ Row,
+ Col,
+ Card,
+ Placeholder,
+ Button,
+} from "react-bootstrap";
+import AddReview from "./AddReview";
 
 const GameDetail = () => {
  const { id } = useParams();
  const [game, setGame] = useState(null);
+ const [gameTitle, setGameTitle] = useState("");
  const [loadingGame, setLoadingGame] = useState(true);
  const [errorGame, setErrorGame] = useState(null);
  const [gameTrailer, setGameTrailer] = useState(null);
  const [loadingTrailer, setLoadingTrailer] = useState(true);
  const [errorTrailer, setErrorTrailer] = useState(null);
+
+ const [showAddReviewModal, setShowAddReviewModal] = useState(false);
+
+ const handleShowAddReviewModal = () => {
+  setShowAddReviewModal(true);
+ };
 
  useEffect(() => {
   const fetchGameDetails = async () => {
@@ -21,6 +36,7 @@ const GameDetail = () => {
     if (response.ok) {
      const data = await response.json();
      setGame(data);
+     setGameTitle(data.name);
     } else {
      throw new Error("Failed to fetch game details");
     }
@@ -57,10 +73,6 @@ const GameDetail = () => {
   fetchGameTrailer();
  }, [id]);
 
- if (errorGame) return <p>Error fetching game details: {errorGame}</p>;
-
- if (errorTrailer) return <p>Error fetching game trailer: {errorTrailer}</p>;
-
  return (
   <Container className="mt-5 mb-5">
    <Row>
@@ -96,6 +108,13 @@ const GameDetail = () => {
          <Card.Text>Rating: {game.rating}</Card.Text>
         </>
        )}
+       <Button onClick={handleShowAddReviewModal}>Add Review</Button>
+       <AddReview
+        gameId={id}
+        gameTitle={gameTitle}
+        show={showAddReviewModal}
+        handleClose={() => setShowAddReviewModal(false)}
+       />
       </Card.Body>
      </Card>
     </Col>

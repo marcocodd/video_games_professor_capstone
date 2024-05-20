@@ -45,7 +45,7 @@ const CustomNavBar = () => {
 
  const handleInputRegistration = (e) => {
   const { name, value } = e.target;
-  setRegistrationData(...registrationData, { [name]: value });
+  setRegistrationData({ ...registrationData, [name]: value });
  };
  const handleInputLogin = (e) => {
   const { name, value } = e.target;
@@ -73,6 +73,8 @@ const CustomNavBar = () => {
   if (errors.username || errors.email || errors.password) {
    setRegisterErrors(errors);
   } else {
+   // Rimuovi tutti gli errori quando viene avviata una nuova registrazione
+   setRegisterErrors({});
    dispatch(registerUserAction(registrationData));
   }
  };
@@ -97,11 +99,29 @@ const CustomNavBar = () => {
    dispatch(fetchUserProfile());
   }
  };
+
+ const getFieldErrorMessage = (fieldName) => {
+  if (registrationState.errorMessage) {
+   if (registrationState.errorMessage.message) {
+    const errorMessages = registrationState.errorMessage.message.split(". ");
+    const fieldError = errorMessages.find((message) =>
+     message.toLowerCase().includes(fieldName.toLowerCase())
+    );
+    return fieldError || "";
+   }
+  }
+  return "";
+ };
+
  useEffect(() => {
   if (registrationState.successMessage) {
    setShowAlertSuccess(true);
    setShowRegister(false);
-   setRegistrationData("");
+   setRegistrationData({
+    username: "",
+    email: "",
+    password: "",
+   });
   }
   if (loginUserState.successMessage) {
    setShowAlertSuccess(true);
@@ -113,16 +133,27 @@ const CustomNavBar = () => {
  useEffect(() => {
   if (registrationState.errorMessage || loginUserState.errorMessage) {
    setShowLogin(false); // Chiudi il modale di login se si verifica un errore
-   setShowRegister(false); // Chiudi il modale di registrazione se si verifica un errore
    setShowAlertError(true); // Mostra l'alert di errore solo se c'è un errore
   } else {
    setShowAlertError(false); // Nascondi l'alert di errore se non c'è errore
   }
  }, [registrationState.errorMessage, loginUserState.errorMessage]);
 
+ useEffect(() => {
+  // Reset dei messaggi di errore quando il modale viene chiuso
+  if (!showRegister) {
+   setRegistrationData({
+    username: "",
+    email: "",
+    password: "",
+   });
+   setRegisterErrors([]);
+  }
+ }, [showRegister]);
+
  return (
   <>
-   <Navbar expand="lg" className="bg-navbar rounded sticky-top">
+   <Navbar expand="lg" className="bg-navbar rounded">
     <Container>
      <Link to={"/"}>
       <Navbar.Brand>
@@ -136,9 +167,11 @@ const CustomNavBar = () => {
        <Nav.Link className="me-2" href="#home">
         Reviews
        </Nav.Link>
-       <Nav.Link className="me-2" href="#link">
+
+       <Nav.Link as={Link} to="/games" className="me-2">
         Games
        </Nav.Link>
+
        <NavDropdown
         className="text-white"
         title="Platforms"
@@ -195,7 +228,7 @@ const CustomNavBar = () => {
     </Container>
    </Navbar>
 
-   {/* MODAL LOGIN */}
+   {/* Modal Login */}
 
    <Modal show={showLogin} onHide={handleCloseLogin}>
     <Modal.Header closeButton>
@@ -275,6 +308,9 @@ const CustomNavBar = () => {
        {registerErrors.username && (
         <p className="text-danger">{registerErrors.username}</p>
        )}
+       {registrationState.errorMessage && (
+        <p className="text-danger">{getFieldErrorMessage("username")}</p>
+       )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Email address</Form.Label>
@@ -289,6 +325,9 @@ const CustomNavBar = () => {
        {registerErrors.email && (
         <p className="text-danger">{registerErrors.email}</p>
        )}
+       {registrationState.errorMessage && (
+        <p className="text-danger">{getFieldErrorMessage("email")}</p>
+       )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
        <Form.Label>Password</Form.Label>
@@ -302,6 +341,9 @@ const CustomNavBar = () => {
        />
        {registerErrors.password && (
         <p className="text-danger">{registerErrors.password}</p>
+       )}
+       {registrationState.errorMessage && (
+        <p className="text-danger">{getFieldErrorMessage("password")}</p>
        )}
       </Form.Group>
      </Form>
@@ -348,17 +390,6 @@ const CustomNavBar = () => {
       <p>{loginUserState.successMessage}</p>
      </Alert>
     )}
-
-   {showAlertError && (
-    <Alert
-     variant="danger"
-     onClose={() => setShowAlertError(false)}
-     dismissible
-    >
-     <Alert.Heading>Error</Alert.Heading>
-     <p>{registrationState.errorMessage || loginUserState.errorMessage}</p>
-    </Alert>
-   )}
    {/* End Alerts */}
   </>
  );

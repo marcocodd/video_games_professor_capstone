@@ -15,7 +15,7 @@ export const registerUserAction = (registrationData) => {
     dispatch(registerUserSuccess());
     console.log("Account created");
    } else {
-    const errorMessage = await response.text();
+    const errorMessage = await response.json();
     dispatch(registerUserFail(errorMessage));
     console.error("Failed to create account:", response.status);
    }

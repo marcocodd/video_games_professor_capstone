@@ -48,10 +48,14 @@ body {
 }
 
 .cardbg{
-  background-color: #845aa5c7!important;
+  background-color: $tertiary!important;
   color: #d1bacd!important;
 }
-
+.card-shadow-focus:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 footer{
   background-color: $tertiary;
 }
@@ -62,10 +66,11 @@ h1,h2,h3,h4,h6{
 }
 
 
-#lastGamesContainer::-webkit-scrollbar {
+
+
+.remove-scrollbar::-webkit-scrollbar {
   display: none; /* Nasconde la barra di scorrimento */
 }
-
 
 .custom-opacity {
   opacity: 0.5; 
@@ -73,5 +78,12 @@ h1,h2,h3,h4,h6{
 .custom-opacity:hover {
   opacity: 1; 
   transition: 0.5s;
+}
+
+ul{
+  list-style: none;
+}
+.bg-tertiary{
+  background-color: $tertiary;
 }
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"

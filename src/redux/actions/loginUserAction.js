@@ -17,13 +17,13 @@ export const loginUserAction = (loginData) => {
     dispatch(loginUserSuccess());
     localStorage.setItem("token", data.accessToken);
    } else {
-    const error = await response.text();
+    const error = await response.json();
 
-    dispatch(loginUserFail(error));
+    dispatch(loginUserFail(error.message));
     console.log("errore", error);
    }
   } catch (error) {
-   dispatch(loginUserFail(error));
+   dispatch(loginUserFail(error.message));
   }
  };
 };

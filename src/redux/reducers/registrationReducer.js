@@ -6,7 +6,7 @@ const initialState = {
  //  registrationData: { username: "", email: "", password: "" },
  loading: false,
  successMessage: "",
- errorMessage: null,
+ errorMessage: "",
 };
 
 const registrationReducer = (state = initialState, action) => {
