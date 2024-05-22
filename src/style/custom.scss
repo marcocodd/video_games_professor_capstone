@@ -86,4 +86,12 @@ ul{
 .bg-tertiary{
   background-color: $tertiary;
 }
+
+.accordion-button{
+  background-color: $tertiary!important;
+}
+.accordion-body{
+  background-color: $tertiary;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"

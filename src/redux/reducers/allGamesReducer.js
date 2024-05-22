@@ -2,6 +2,7 @@ import {
  FETCH_ALL_GAMES_FAIL,
  FETCH_ALL_GAMES_REQUEST,
  FETCH_ALL_GAMES_SUCCESS,
+ RESET_GAMES,
 } from "../actions/fetchAllGamesAction";
 
 const initialState = {
@@ -23,6 +24,12 @@ const allGamesReducer = (state = initialState, action) => {
    };
   case FETCH_ALL_GAMES_FAIL:
    return { ...state, loading: false, error: action.payload };
+  case RESET_GAMES:
+   return {
+    ...state,
+    allGames: [],
+    totalPages: 0,
+   };
   default:
    return state;
  }

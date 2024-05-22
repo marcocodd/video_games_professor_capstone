@@ -8,8 +8,10 @@ const Footer = () => {
      <Col md={6}>
       <h6>About Us</h6>
       <p className="fs-6">
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non
-       scelerisque libero.
+       Welcome to Video Game Professor, the ultimate destination for gamers and
+       video game enthusiasts! Our mission is to create a vibrant community
+       where gamers of all backgrounds can come together, share their passion,
+       and discover the latest and greatest in the world of video games.
       </p>
      </Col>
      <Col md={3}>
@@ -40,7 +42,9 @@ const Footer = () => {
      <Col md={3}>
       <h6>Contact Us</h6>
       <ul className="list-unstyled">
-       <li>working</li>
+       <li>
+        <i className="bi bi-linkedin fs-4"></i>
+       </li>
        <li>working</li>
        <li>working</li>
        <li>working</li>

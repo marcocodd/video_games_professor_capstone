@@ -3,6 +3,7 @@ import { Card, Col, Placeholder } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLastGames } from "../redux/actions/fetchLastGamesAction";
 import { Link } from "react-router-dom";
+import PlaceHolderCards from "./PlaceHolderCards";
 
 const LastGamesGenerator = () => {
  const dispatch = useDispatch();
@@ -12,33 +13,13 @@ const LastGamesGenerator = () => {
   dispatch(fetchLastGames());
  }, [dispatch]);
 
- if (loading) {
-  return (
-   <>
-    {[...Array(8)].map((_, i) => (
-     <Col xs={12} sm={6} md={4} lg={3} key={i}>
-      <Card className="cardbg  p-1 h-100">
-       <Placeholder
-        as={Card.Img}
-        animation="wave"
-        style={{ height: "160px" }}
-       />
-       <Card.Body className="text-secondary">
-        <Placeholder as={Card.Title} animation="wave" xs={6} />
-        <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{" "}
-        <Placeholder xs={6} /> <Placeholder xs={8} />
-        <Placeholder as={Card.Text} animation="wave" xs={7} />
-        <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{" "}
-        <Placeholder xs={6} /> <Placeholder xs={8} />
-        <Placeholder as={Card.Title} animation="wave" xs={4} />
-        <Placeholder as={Card.Title} animation="wave" xs={4} />
-       </Card.Body>
-      </Card>
-     </Col>
-    ))}
-   </>
-  );
- }
+ //  if (loading) {
+ //   return (
+ //    <>
+ //     <PlaceHolderCards />
+ //    </>
+ //   );
+ //  }
 
  if (error) {
   return <p>Error loading games: {error}</p>;
@@ -46,6 +27,7 @@ const LastGamesGenerator = () => {
 
  return (
   <>
+   {loading && <PlaceHolderCards />}
    {lastGames &&
     lastGames.map((game, i) => (
      <Col xs={12} sm={6} md={4} lg={3} key={i}>

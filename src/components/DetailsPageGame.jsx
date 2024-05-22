@@ -7,6 +7,8 @@ import {
  Card,
  Placeholder,
  Button,
+ Accordion,
+ CardFooter,
 } from "react-bootstrap";
 import AddReview from "./AddReview";
 
@@ -19,6 +21,8 @@ const GameDetail = () => {
  const [gameTrailer, setGameTrailer] = useState(null);
  const [loadingTrailer, setLoadingTrailer] = useState(true);
  const [errorTrailer, setErrorTrailer] = useState(null);
+ const [gameAchievements, setGameAchievements] = useState([]);
+ const [gameStores, setGameStores] = useState();
 
  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
 
@@ -73,15 +77,61 @@ const GameDetail = () => {
   fetchGameTrailer();
  }, [id]);
 
+ useEffect(() => {
+  const fetchGameAchievements = async () => {
+   try {
+    const response = await fetch(
+     `https://api.rawg.io/api/games/${id}/achievements?key=35122db68a38468ababdf2d2f6dd421a`
+    );
+
+    if (response.ok) {
+     const data = await response.json();
+     setGameAchievements(data.results);
+    } else {
+     throw new Error("Failed to fetch game details");
+    }
+   } catch (error) {
+    setErrorGame(error.message);
+   } finally {
+    setLoadingGame(false);
+   }
+  };
+
+  fetchGameAchievements();
+ }, [id]);
+
+ useEffect(() => {
+  const fetchGameStores = async () => {
+   try {
+    const response = await fetch(
+     `https://api.rawg.io/api/games/${id}/stores?key=35122db68a38468ababdf2d2f6dd421a`
+    );
+
+    if (response.ok) {
+     const data = await response.json();
+     setGameStores(data.results);
+    } else {
+     throw new Error("Failed to fetch game details");
+    }
+   } catch (error) {
+    setErrorGame(error.message);
+   } finally {
+    setLoadingGame(false);
+   }
+  };
+
+  fetchGameStores();
+ }, [id]);
+
  return (
   <Container className="mt-5 mb-5">
-   <Row>
+   <Row className="mb-3">
     <Col xs={12} md={12} lg={6}>
      <Card className="my-3 cardbg">
       {loadingGame ? (
        <Placeholder as={Card.Img} animation="wave" />
       ) : (
-       <Card.Img variant="top" src={game.background_image} />
+       game && <Card.Img variant="top" src={game.background_image} />
       )}
       <Card.Body>
        {loadingGame ? (
@@ -101,21 +151,34 @@ const GameDetail = () => {
          </Placeholder>
         </>
        ) : (
-        <>
-         <Card.Title>{game.name}</Card.Title>
-         <Card.Text>{game.description_raw}</Card.Text>
-         <Card.Text>Released: {game.released}</Card.Text>
-         <Card.Text>Rating: {game.rating}</Card.Text>
-        </>
+        game && (
+         <>
+          <Card.Title>{game.name}</Card.Title>
+          <Card.Text>{game.description_raw}</Card.Text>
+          <Card.Text>Released: {game.released}</Card.Text>
+          <Card.Text>Rating: {game.rating}</Card.Text>
+          <Card.Text>
+           Genre: {game.genres.map((genre) => genre.name).join(", ")}
+          </Card.Text>
+         </>
+        )
        )}
-       <Button onClick={handleShowAddReviewModal}>Add Review</Button>
+      </Card.Body>
+      <CardFooter>
+       <Button className="me-2" onClick={handleShowAddReviewModal}>
+        Add Review
+       </Button>
+       {gameStores && (
+        <span>Buy on: {gameStores.map((store) => store.url)} </span>
+       )}
+
        <AddReview
         gameId={id}
         gameTitle={gameTitle}
         show={showAddReviewModal}
         handleClose={() => setShowAddReviewModal(false)}
        />
-      </Card.Body>
+      </CardFooter>
      </Card>
     </Col>
     <Col xs={12} md={12} lg={6}>
@@ -135,6 +198,34 @@ const GameDetail = () => {
        </div>
       )
      )}
+     <h4>Some Achievements in the game:</h4>
+     <Row className="g-2">
+      {gameAchievements && gameAchievements.length > 0 ? (
+       gameAchievements.map((achievement) => (
+        <Col xs={12} sm={6} md={4} lg={4} key={achievement.id}>
+         <Card className="p-0 cardbg h-100">
+          <Card.Img variant="top" src={achievement.image} />
+          <Card.Body>
+           <Accordion>
+            <Accordion.Item eventKey="0">
+             <Accordion.Header>{achievement.name}</Accordion.Header>
+             <Accordion.Body>
+              <Card.Text>{achievement.description}</Card.Text>
+             </Accordion.Body>
+            </Accordion.Item>
+           </Accordion>
+          </Card.Body>
+          <Card.Footer>
+           <small className="text-muted">{achievement.percent}</small>
+          </Card.Footer>
+         </Card>
+        </Col>
+       ))
+      ) : (
+       <p>Sorry, there are no achievements available at the moment.</p>
+      )}
+     </Row>
+     {/* </Row> */}
     </Col>
    </Row>
   </Container>

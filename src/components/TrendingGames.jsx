@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const TrendingGames = () => {
  const [trendingGamesArray, setTrendingGamesArray] = useState([]);
@@ -59,7 +60,7 @@ const TrendingGames = () => {
   return rows;
  };
 
- const rowsOfGames = splitGamesIntoRows(trendingGamesArray, 5); // 5 card per riga
+ const rowsOfGames = splitGamesIntoRows(trendingGamesArray, 5);
 
  return (
   <>
@@ -71,8 +72,13 @@ const TrendingGames = () => {
      >
       {row.map((game) => (
        <Col key={game.id}>
-        <Card className="cardbg card-shadow-focus p-1 h-100 d-flex flex-column justify-content-between">
-         <Card.Img variant="top" src={game.background_image} alt={game.name} />
+        <Card
+         style={{ width: "10rem" }}
+         className="cardbg card-shadow-focus p-1 h-100 d-flex flex-column justify-content-between"
+        >
+         <Link to={`/game/${game.id}`}>
+          <Card.Img variant="top" src={game.background_image} alt={game.name} />
+         </Link>
          <Card.Body>
           <Card.Title className="fs-6">{game.name}</Card.Title>
          </Card.Body>

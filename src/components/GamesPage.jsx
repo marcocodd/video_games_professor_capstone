@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
  Button,
  Card,
@@ -11,9 +11,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllGames } from "../redux/actions/fetchAllGamesAction";
 import { Link } from "react-router-dom";
+import PlaceHolderCards from "./PlaceHolderCards";
 
 const GamesPage = () => {
  const [searchQuery, setSearchQuery] = useState("");
+ const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
 
  const allGames = useSelector((state) => state.allgames);
  const dispatch = useDispatch();
@@ -27,8 +29,24 @@ const GamesPage = () => {
  };
 
  useEffect(() => {
-  dispatch(fetchAllGames(1));
- }, []);
+  const handler = setTimeout(() => {
+   setDebouncedQuery(searchQuery);
+  }, 500);
+
+  return () => {
+   clearTimeout(handler);
+  };
+ }, [searchQuery]);
+
+ useEffect(() => {
+  if (debouncedQuery) {
+   dispatch(fetchAllGames(searchQuery, true));
+  } else {
+   dispatch(fetchAllGames("", true));
+  }
+ }, [debouncedQuery]);
+
+ //  if (allGames.loading) return <PlaceHolderCards />;
 
  return (
   <Container className="mt-5 mb-5">
@@ -49,6 +67,7 @@ const GamesPage = () => {
      </Form>
     </Col>
    </Row>
+   {allGames.loading && <PlaceHolderCards />}
    <Row className="g-3 mt-5">
     {allGames.allGames.map((game, index) => (
      <Col xs={12} sm={6} md={4} lg={3} key={index}>
@@ -69,7 +88,6 @@ const GamesPage = () => {
      </Col>
     ))}
    </Row>
-   {allGames.loading && <p>Caricamento...</p>}
   </Container>
  );
 };

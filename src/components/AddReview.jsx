@@ -76,9 +76,11 @@ const AddReview = ({ gameId, gameTitle, show, handleClose }) => {
        max="10"
       />
      </Form.Group>
-     <Button variant="primary" type="submit">
-      Submit
-     </Button>
+     <div className="text-center">
+      <Button className="mt-2" variant="primary" type="submit">
+       Post
+      </Button>
+     </div>
     </Form>
    </Modal.Body>
   </Modal>
