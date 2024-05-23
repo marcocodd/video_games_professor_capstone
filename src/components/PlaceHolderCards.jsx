@@ -2,7 +2,7 @@ import { Card, Col, Container, Placeholder, Row } from "react-bootstrap";
 
 const PlaceHolderCards = () => (
  <Container className="mt-4">
-  <Row>
+  <Row className="g-3">
    {[...Array(8)].map((_, i) => (
     <Col xs={12} sm={6} md={4} lg={3} key={i}>
      <Card className="cardbg  p-1 h-100">

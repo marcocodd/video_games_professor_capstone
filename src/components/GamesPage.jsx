@@ -51,7 +51,7 @@ const GamesPage = () => {
  return (
   <Container className="mt-5 mb-5">
    <Row>
-    <Col sm={12} className="d-flex justify-content-around">
+    <Col sm={12}>
      <Form onSubmit={handleSearchSubmit}>
       <FormControl
        type="search"
@@ -61,9 +61,6 @@ const GamesPage = () => {
        value={searchQuery}
        onChange={handleSearchChange}
       />
-      <Button variant="primary" type="submit">
-       Search
-      </Button>
      </Form>
     </Col>
    </Row>
