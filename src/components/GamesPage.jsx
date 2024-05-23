@@ -80,9 +80,11 @@ const GamesPage = () => {
          src={game.background_image}
         />
        </Link>
-       <Card.Body className="text-secondary">
-        <Card.Title className="text-secondary">Title: {game.name}</Card.Title>
-        <Card.Title className="fs-6">Released: {game.released}</Card.Title>
+       <Card.Body>
+        <Card.Title>Title: {game.name}</Card.Title>
+        <Card.Text className="fs-6 text-color">
+         Released: {game.released}
+        </Card.Text>
        </Card.Body>
       </Card>
      </Col>

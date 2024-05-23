@@ -1,10 +1,17 @@
-$primary: #c42ba3;
-$secondary:#201b25;
-$tertiary:#583b6de7;
+// $primary: #c42ba3;
+// $secondary:#201b25;
+// $tertiary:#583b6de7;
+
+$primary:#E0B703;
+$secondary:#2b1015;
+$tertiary:#7F277E;
+$custom-text-color:#D3CED3;
+
+
 
 body {
     background-color:$secondary!important;
-    color: white!important;
+    color: $custom-text-color!important;
 
   }
 
@@ -14,7 +21,7 @@ body {
   }
 
   .nav-link {
-    color: white!important;
+    color: $custom-text-color!important;
     font-weight: bold!important;
  
 }
@@ -28,12 +35,12 @@ body {
   background-color: $tertiary!important;
 }
 .dropdown-item {
-  color: white !important; // Imposta il colore del testo su bianco
+  color: $custom-text-color !important; // Imposta il colore del testo su bianco
 }
 
 
 .dropdown-item:active {
-    background-color: #ffffff !important; // Imposta il colore di sfondo su bianco
+    background-color: #AA76BE !important; // Imposta il colore di sfondo su bianco
     color: $primary !important; // Imposta il colore del testo su primary
 }
 
@@ -44,24 +51,30 @@ body {
 
 .modal-content {
   background-color: $tertiary !important;
-  color: #ffffff;
+  color: $custom-text-color;
 }
 
 .cardbg{
   background-color: $tertiary!important;
-  color: #d1bacd!important;
+  color: $custom-text-color!important;
 }
+
 .card-shadow-focus:hover {
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.card-text{
+  color: $custom-text-color;
+}
+
 footer{
   background-color: $tertiary;
 }
 
 
-h1,h2,h3,h4,h6{
+h1,h2,h3,h4,h5, h6{
   color: $primary!important;
 }
 
@@ -92,6 +105,9 @@ ul{
 }
 .accordion-body{
   background-color: $tertiary;
+}
+.accordion-button{
+  color: $primary!important;
 }
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"

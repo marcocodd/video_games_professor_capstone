@@ -217,11 +217,7 @@ const CustomNavBar = () => {
         onClick={handleShowLogin}
         className="bg-transparent border-0 rounded-circle p-0"
        >
-        <img
-         className="rounded-circle me-2"
-         src="https://placebear.com/50/50"
-         alt="Avatar"
-        />
+        <i className="bi bi-person-circle fs-1 text-color"></i>
        </Button>
       )}
      </Navbar.Collapse>

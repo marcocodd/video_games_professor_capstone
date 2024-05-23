@@ -215,9 +215,6 @@ const GameDetail = () => {
             </Accordion.Item>
            </Accordion>
           </Card.Body>
-          <Card.Footer>
-           <small className="text-muted">{achievement.percent}</small>
-          </Card.Footer>
          </Card>
         </Col>
        ))

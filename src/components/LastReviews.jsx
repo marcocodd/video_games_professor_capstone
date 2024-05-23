@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const LastReviews = () => {
  const [lastReviewsArray, setLastReviewsArray] = useState([]);
@@ -24,14 +25,21 @@ const LastReviews = () => {
  }, []);
 
  return (
-  <ul className="bg-tertiary rounded-3">
+  <ul className="bg-tertiary rounded-3 p-2">
    {lastReviewsArray.map((review, i) => (
-    <>
-     <h6 key={i}>{review.gameTitle}</h6>
-     <li>
+    <li key={i} className="review-item">
+     <strong className="text-primary">{review.gameTitle}</strong>
+     <p className="text-color">
+      <img
+       className="rounded-5 me-2"
+       width={40}
+       height={40}
+       src={review.avatarUrl}
+       alt="avatar-user"
+      />
       {review.username}: {review.content}
-     </li>
-    </>
+     </p>
+    </li>
    ))}
   </ul>
  );
