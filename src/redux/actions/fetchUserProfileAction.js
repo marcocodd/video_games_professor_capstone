@@ -17,6 +17,6 @@ export const fetchUserProfile = () => async (dispatch) => {
    console.log(response.status);
   }
  } catch (error) {
-  dispatch({ type: FETCH_USER_PROFILE_FAILURE, payload: "Riprova" });
+  dispatch({ type: FETCH_USER_PROFILE_FAILURE, payload: error.message });
  }
 };
