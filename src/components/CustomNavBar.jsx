@@ -9,7 +9,7 @@ import {
  NavDropdown,
  Navbar,
 } from "react-bootstrap";
-import logo from "../assets/logo.jpg";
+import logo from "/public/assets/logo.jpg";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 

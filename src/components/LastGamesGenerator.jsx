@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Card, Col, Placeholder } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLastGames } from "../redux/actions/fetchLastGamesAction";
 import { Link } from "react-router-dom";

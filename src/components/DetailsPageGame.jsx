@@ -26,6 +26,18 @@ const GameDetail = () => {
 
  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
 
+ const storeDetails = {
+  1: { name: "Steam", logo: "/public/assets/steam.png" },
+  2: { name: "Xbox", logo: "/public/assets/xbox.jpg" },
+  3: { name: "Playstation", logo: "/public/assets/playstation.jpg" },
+  4: { name: "App store", logo: "/public/assets/apple.png" },
+  5: { name: "GOG", logo: "/public/assets/gog.jpg" },
+  6: { name: "Nintendo", logo: "/public/assets/nintendo.png" },
+  7: { name: "Microsoft", logo: "/public/assets/microsoft.jpg" },
+  8: { name: "Google play", logo: "/public/assets/googleplay.png" },
+  11: { name: "Epic Games", logo: "/public/assets/epic.png" },
+ };
+
  const handleShowAddReviewModal = () => {
   setShowAddReviewModal(true);
  };
@@ -165,11 +177,29 @@ const GameDetail = () => {
        )}
       </Card.Body>
       <CardFooter>
-       <Button className="me-2" onClick={handleShowAddReviewModal}>
+       <Button className="me-2 mb-3" onClick={handleShowAddReviewModal}>
         Add Review
        </Button>
-       {gameStores && (
-        <span>Buy on: {gameStores.map((store) => store.url)} </span>
+       {gameStores && gameStores.length > 0 && (
+        <>
+         <p>Buy on</p>
+         {gameStores.map((store) => (
+          <a
+           key={store.id}
+           href={store.url}
+           target="_blank"
+           rel="noopener noreferrer"
+          >
+           <img
+            width={80}
+            height={45}
+            src={storeDetails[store.store_id].logo}
+            alt={storeDetails[store.store_id].name}
+            className="me-2 rounded-5 mb-2"
+           />
+          </a>
+         ))}
+        </>
        )}
 
        <AddReview
@@ -198,7 +228,7 @@ const GameDetail = () => {
        </div>
       )
      )}
-     <h4>Some Achievements in the game:</h4>
+     <h4 className="mt-3 mb-3">Achievements in the game</h4>
      <Row className="g-2">
       {gameAchievements && gameAchievements.length > 0 ? (
        gameAchievements.map((achievement) => (
