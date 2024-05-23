@@ -27,15 +27,15 @@ const GameDetail = () => {
  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
 
  const storeDetails = {
-  1: { name: "Steam", logo: "/public/assets/steam.png" },
-  2: { name: "Xbox", logo: "/public/assets/xbox.jpg" },
-  3: { name: "Playstation", logo: "/public/assets/playstation.jpg" },
-  4: { name: "App store", logo: "/public/assets/apple.png" },
-  5: { name: "GOG", logo: "/public/assets/gog.jpg" },
-  6: { name: "Nintendo", logo: "/public/assets/nintendo.png" },
-  7: { name: "Microsoft", logo: "/public/assets/microsoft.jpg" },
-  8: { name: "Google play", logo: "/public/assets/googleplay.png" },
-  11: { name: "Epic Games", logo: "/public/assets/epic.png" },
+  1: { name: "Steam", logo: "/assets/steam.png" },
+  2: { name: "Xbox", logo: "/assets/xbox.jpg" },
+  3: { name: "Playstation", logo: "/assets/playstation.jpg" },
+  4: { name: "App store", logo: "/assets/apple.png" },
+  5: { name: "GOG", logo: "/assets/gog.jpg" },
+  6: { name: "Nintendo", logo: "/assets/nintendo.png" },
+  7: { name: "Microsoft", logo: "/assets/microsoft.jpg" },
+  8: { name: "Google play", logo: "/assets/googleplay.png" },
+  11: { name: "Epic Games", logo: "/assets/epic.png" },
  };
 
  const handleShowAddReviewModal = () => {
