@@ -32,22 +32,19 @@ const Footer = () => {
          Services
         </a>
        </li>
-       <li>
-        <a className="text-light" href="#!">
-         Contact
-        </a>
-       </li>
       </ul>
      </Col>
      <Col md={3}>
       <h6>Contact Us</h6>
       <ul className="list-unstyled">
        <li>
-        <i className="bi bi-linkedin fs-4"></i>
+        <a
+         className="text-light"
+         href="https://www.linkedin.com/in/marco-brunetti91/"
+        >
+         <i className="bi bi-linkedin fs-4"></i>
+        </a>
        </li>
-       <li>working</li>
-       <li>working</li>
-       <li>working</li>
       </ul>
      </Col>
     </Row>

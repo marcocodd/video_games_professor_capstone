@@ -73,7 +73,6 @@ const CustomNavBar = () => {
   if (errors.username || errors.email || errors.password) {
    setRegisterErrors(errors);
   } else {
-   // Rimuovi tutti gli errori quando viene avviata una nuova registrazione
    setRegisterErrors({});
    dispatch(registerUserAction(registrationData));
   }
@@ -217,7 +216,7 @@ const CustomNavBar = () => {
         onClick={handleShowLogin}
         className="bg-transparent border-0 rounded-circle p-0"
        >
-        <i className="bi bi-person-circle fs-1 text-color"></i>
+        <i className="bi bi-person-circle fs-1 text-primary"></i>
        </Button>
       )}
      </Navbar.Collapse>
@@ -386,6 +385,17 @@ const CustomNavBar = () => {
       <p>{loginUserState.successMessage}</p>
      </Alert>
     )}
+   {showAlertError && loginUserState.errorMessage && (
+    <Alert
+     variant="danger"
+     onClose={() => setShowAlertError(false)}
+     dismissible
+    >
+     <Alert.Heading>Error</Alert.Heading>
+     <p>{loginUserState.errorMessage}</p>
+    </Alert>
+   )}
+
    {/* End Alerts */}
   </>
  );

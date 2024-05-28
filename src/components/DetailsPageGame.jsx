@@ -183,22 +183,29 @@ const GameDetail = () => {
        {gameStores && gameStores.length > 0 && (
         <>
          <p>Buy on</p>
-         {gameStores.map((store) => (
-          <a
-           key={store.id}
-           href={store.url}
-           target="_blank"
-           rel="noopener noreferrer"
-          >
-           <img
-            width={80}
-            height={45}
-            src={storeDetails[store.store_id].logo}
-            alt={storeDetails[store.store_id].name}
-            className="me-2 rounded-5 mb-2"
-           />
-          </a>
-         ))}
+         {gameStores.map((store) => {
+          const storeDetail = storeDetails[store.store_id];
+          return (
+           <a
+            key={store.id}
+            href={store.url}
+            target="_blank"
+            rel="noopener noreferrer"
+           >
+            {storeDetail ? (
+             <img
+              width={80}
+              height={45}
+              src={storeDetail.logo}
+              alt={storeDetail.name}
+              className="me-2 rounded-5 mb-2"
+             />
+            ) : (
+             <span className="me-2 mb-2">Store Logo Unavailable</span>
+            )}
+           </a>
+          );
+         })}
         </>
        )}
 

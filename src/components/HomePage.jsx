@@ -48,9 +48,9 @@ const HomePage = () => {
      &gt;
     </Button>
    </div>
-   <Row className="mt-5 g-4 mb-5">
+   <Row className="mt-5 g-5 mb-5">
     <Col sm={12} md={6} lg={6} className="text-white">
-     <h4>Last reviews</h4>
+     <h4>Lastest reviews</h4>
      <LastReviews />
     </Col>
     <Col className="text-end" sm={12} md={6} lg={6}>

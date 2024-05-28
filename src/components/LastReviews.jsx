@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const LastReviews = () => {
@@ -25,24 +26,40 @@ const LastReviews = () => {
  }, []);
 
  return (
-  <ul className="bg-tertiary rounded-3 p-2">
-   {lastReviewsArray.map((review, i) => (
-    <li key={i} className="review-item">
-     <strong className="text-primary">{review.gameTitle}</strong>
-     <p className="text-color">
-      <img
-       className="rounded-5 me-2"
-       width={40}
-       height={40}
-       src={review.avatarUrl}
-       alt="avatar-user"
-      />
-      {review.username}: {review.content}
-     </p>
-    </li>
-   ))}
-  </ul>
+  <Container className="bg-tertiary rounded-3 p-2">
+   <ul className="list-unstyled">
+    {lastReviewsArray.map((review, i) => (
+     <li key={i} className="mb-3 p-3 border border-primary rounded">
+      <Row className="align-items-center">
+       <Col xs="auto">
+        <img
+         className="rounded-5"
+         width={50}
+         height={50}
+         src={review.avatarUrl}
+         alt="avatar-user"
+        />
+       </Col>
+       <Col>
+        <Row>
+         <Col xs={12}>
+          <strong className="text-primary">{review.gameTitle}</strong>
+         </Col>
+         <Col xs={12}>
+          <span>{review.username} says:</span>
+         </Col>
+        </Row>
+       </Col>
+      </Row>
+      <Row className="mt-2">
+       <Col>
+        <p>{review.content}</p>
+       </Col>
+      </Row>
+     </li>
+    ))}
+   </ul>
+  </Container>
  );
 };
-
 export default LastReviews;
