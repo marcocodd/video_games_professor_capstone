@@ -54,6 +54,9 @@ const LastReviews = () => {
       <Row className="mt-2">
        <Col>
         <p>{review.content}</p>
+        <p className="text-primary">
+         Rating <span className="custom-text-color">{review.rating}</span>
+        </p>
        </Col>
       </Row>
      </li>

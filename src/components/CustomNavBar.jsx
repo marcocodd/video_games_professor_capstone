@@ -18,6 +18,7 @@ import { registerUserAction } from "../redux/actions/registerUserAction";
 import { loginUserAction } from "../redux/actions/loginUserAction";
 import { fetchUserProfile } from "../redux/actions/fetchUserProfileAction";
 import { Link } from "react-router-dom";
+import { logoutUserAction } from "../redux/actions/logOutUserAction";
 
 const CustomNavBar = () => {
  const [showLogin, setShowLogin] = useState(false);
@@ -94,9 +95,16 @@ const CustomNavBar = () => {
   if (errors.email || errors.password) {
    setLoginErrors(errors);
   } else {
-   dispatch(loginUserAction(loginData));
-   dispatch(fetchUserProfile());
+   dispatch(loginUserAction(loginData)).then(() => {
+    dispatch(fetchUserProfile());
+   });
   }
+ };
+
+ const handleLogout = () => {
+  dispatch(logoutUserAction());
+  window.location.reload(); // Aggiorna la pagina
+  window.location.href = "/"; // Reindirizza alla home
  };
 
  const getFieldErrorMessage = (fieldName) => {
@@ -152,7 +160,7 @@ const CustomNavBar = () => {
 
  return (
   <>
-   <Navbar expand="lg" className="bg-navbar rounded">
+   <Navbar expand="lg" className="bg-navbar rounded opacity-75">
     <Container>
      <Link to={"/"}>
       <Navbar.Brand>
@@ -163,7 +171,7 @@ const CustomNavBar = () => {
      <Navbar.Toggle aria-controls="basic-navbar-nav" />
      <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="m-auto">
-       <Nav.Link className="me-2" href="#home">
+       <Nav.Link as={Link} to={"/reviews"} className="me-2" href="#">
         Reviews
        </Nav.Link>
 
@@ -208,7 +216,7 @@ const CustomNavBar = () => {
           Profile
          </Dropdown.Item>
 
-         <Dropdown.Item onClick>Logout</Dropdown.Item>
+         <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
         </Dropdown.Menu>
        </Dropdown>
       ) : (

@@ -80,6 +80,14 @@ ul {
   list-style: none;
 }
 
+li {
+  color: #D3CED3;
+}
+
+span {
+  color: #D3CED3;
+}
+
 .bg-tertiary {
   background-color: #401820;
 }
@@ -93,6 +101,10 @@ ul {
 }
 
 .accordion-button {
+  color: #E0B703 !important;
+}
+
+.active {
   color: #E0B703 !important;
 }
 

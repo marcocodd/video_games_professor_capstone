@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import ProfilePage from "./components/ProfilePage";
 import GameDetail from "./components/DetailsPageGame";
 import GamesPage from "./components/GamesPage";
+import ReviewsPage from "./components/ReviewsPage";
 
 function App() {
  return (
@@ -21,6 +22,7 @@ function App() {
      <Route path="/profile" element={<ProfilePage />} />
      <Route path="/game/:id" element={<GameDetail />} />
      <Route path="/games" element={<GamesPage />} />
+     <Route path="/reviews" element={<ReviewsPage />} />
     </Routes>
    </main>
    <footer>

@@ -96,6 +96,13 @@ h1,h2,h3,h4,h5, h6{
 ul{
   list-style: none;
 }
+
+li{
+  color: $custom-text-color;
+}
+span{
+  color: $custom-text-color;
+}
 .bg-tertiary{
   background-color: $tertiary;
 }
@@ -110,6 +117,8 @@ ul{
   color: $primary!important;
 }
 
-
+.active {
+  color: $primary!important;
+}
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss"

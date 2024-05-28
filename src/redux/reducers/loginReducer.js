@@ -51,6 +51,7 @@ const loginReducer = (state = initialState, action) => {
    return {
     ...state,
     loading: false,
+    isLogged: false,
     successMessage: "Logout successful",
    };
   case UPLOAD_AVATAR_SUCCESS:
