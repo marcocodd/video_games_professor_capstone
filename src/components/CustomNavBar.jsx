@@ -163,8 +163,14 @@ const CustomNavBar = () => {
    <Navbar expand="lg" className="bg-navbar rounded opacity-75">
     <Container>
      <Link to={"/"}>
-      <Navbar.Brand>
-       <img className="rounded-circle" width={50} src={logo} alt="logo image" />
+      <Navbar.Brand className="text-primary">
+       <img
+        className="rounded-circle me-2"
+        width={50}
+        src={logo}
+        alt="logo image"
+       />{" "}
+       VgProfessor
       </Navbar.Brand>
      </Link>
 
@@ -179,7 +185,7 @@ const CustomNavBar = () => {
         Games
        </Nav.Link>
 
-       <NavDropdown
+       {/* <NavDropdown
         className="text-white"
         title="Platforms"
         id="basic-nav-dropdown"
@@ -188,7 +194,7 @@ const CustomNavBar = () => {
         <NavDropdown.Item href="#action/3.2">Xbox</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.3">Nintendo Switch</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.4">Pc</NavDropdown.Item>
-       </NavDropdown>
+       </NavDropdown> */}
        <Nav.Link className="me-2" href="#link">
         Store
        </Nav.Link>
