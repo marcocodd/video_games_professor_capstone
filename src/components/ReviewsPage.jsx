@@ -7,7 +7,6 @@ const ReviewsPage = () => {
  const reviews = loginUserState.profile.review;
  const [selectedReview, setSelectedReview] = useState(null);
  const [showDeleteModal, setShowDeleteModal] = useState(false);
- const dispatch = useDispatch();
 
  const handleEditReview = (reviewId) => {};
 
