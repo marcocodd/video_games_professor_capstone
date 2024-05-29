@@ -9,6 +9,7 @@ import ProfilePage from "./components/ProfilePage";
 import GameDetail from "./components/DetailsPageGame";
 import GamesPage from "./components/GamesPage";
 import ReviewsPage from "./components/ReviewsPage";
+import NotFoundPage from "./components/NotFoundPage";
 
 function App() {
  return (
@@ -23,6 +24,7 @@ function App() {
      <Route path="/game/:id" element={<GameDetail />} />
      <Route path="/games" element={<GamesPage />} />
      <Route path="/reviews" element={<ReviewsPage />} />
+     <Route path="*" element={<NotFoundPage />} />
     </Routes>
    </main>
    <footer>
