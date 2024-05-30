@@ -1,8 +1,6 @@
-# React + Vite
+VgProfessor offers a comprehensive platform to stay updated on the latest games, trailers, and achievements. Share your personal reviews and opinions, and discover where to buy your favorite games from various online stores.
+Built with cutting-edge technologies like Vite, React, and React-Bootstrap, VgProfessor ensures a fast, responsive, and visually appealing experience for all users.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the Front-End side of the project.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Link to the back end repository: [backEnd VgProfessor](https://github.com/marcocodd/video_games_professor_backend.git)
