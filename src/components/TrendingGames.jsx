@@ -29,10 +29,10 @@ const TrendingGames = () => {
    const apiKey = "35122db68a38468ababdf2d2f6dd421a";
    const currentDate = new Date();
    const endDate = currentDate.toISOString().split("T")[0];
-   currentDate.setDate(currentDate.getDate() - 7);
+   currentDate.setDate(currentDate.getDate() - 10);
    const startDate = currentDate.toISOString().split("T")[0];
 
-   const url = `https://api.rawg.io/api/games?dates=${startDate},${endDate}&page_size=10&ordering=-rating&key=${apiKey}`;
+   const url = `https://api.rawg.io/api/games?key=${apiKey}&dates=${startDate},${endDate}&stores=1`;
 
    try {
     const response = await fetch(url);
